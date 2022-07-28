@@ -14,7 +14,7 @@ public class ConnectionDB {
 
 		// Creo que se tiene que cambiar en url base dades, mysql por el nombre que
 		// tengamos de la bbdd ?
-		String urlBaseDades = "jdbc:+"+name+"://localhost:3306?useTimezone=true&serverTimezone=UTC";
+		String urlBaseDades = "jdbc:+" + name + "://localhost:3306?useTimezone=true&serverTimezone=UTC";
 		String user = "root";
 		String pass = "poner cada uno la suya";
 
@@ -34,7 +34,8 @@ public class ConnectionDB {
 			conexion.close();
 			System.out.println("Se ha finalizado la conexion con el servidor");
 		} catch (SQLException ex) {
-			// no ho agafa tal com esta ara (Class.forName) Logger.getLogger((MySQL.class.getName()).log(Level.SEVERE,null,ex);
+			// no ho agafa tal com esta ara (Class.forName)
+			// Logger.getLogger((MySQL.class.getName()).log(Level.SEVERE,null,ex);
 			System.out.println(ex);
 		}
 	}
@@ -114,4 +115,18 @@ public class ConnectionDB {
 		}
 
 	}
+
+	//METODO ELIMINA VALORES DE DB
+	
+	public void deleteRecord(String nombre_tabla, String ID) {
+		try {
+			String Query = "DELETE FROM " + nombre_tabla + "WHERE ID " + ID + "\"";
+			Statement st = conexion.createStatement();
+			st.executeUpdate(Query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
+		}
+	};
 }
