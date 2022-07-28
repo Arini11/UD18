@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ConnectionDB {
@@ -15,9 +14,9 @@ public class ConnectionDB {
 
 		// Creo que se tiene que cambiar en url base dades, mysql por el nombre que
 		// tengamos de la bbdd ?
-		String urlBaseDades = "jdbc:mysql://localhost:3306";
-		String user = "root";
-		String pass = "poner cada uno la suya";
+		String urlBaseDades = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
+		String user = "arnau";
+		String pass = "arnau";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -93,7 +92,7 @@ public class ConnectionDB {
 
 	// OBTENER VALORES MYSQL
 
-	public void getValues(String db, String nombre_tabla, int numCampos) {
+	public void getValues(String db, String nombre_tabla) {
 		try {
 			String Querydb = "USE " + db + ";";
 			Statement stdb = conexion.createStatement();
@@ -105,11 +104,15 @@ public class ConnectionDB {
 			resultSet = st.executeQuery(Query);
 
 			while (resultSet.next()) {
-				while (numCampos-- > 0) {
-					// No tot ser� string
-					// Try catch amb getDouble???
-					System.out.println(resultSet.getString(numCampos));
+				for(int i=1;i>0;i++) {
+					try {
+						resultSet.getString(i);
+					}catch(Exception e) {
+						break;
+					}
+					System.out.print(resultSet.getString(i) + " | ");
 				}
+				System.out.println("");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
