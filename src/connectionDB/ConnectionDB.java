@@ -46,8 +46,6 @@ public class ConnectionDB {
 			conexion.close();
 			System.out.println("Se ha finalizado la conexion con el servidor");
 		} catch (SQLException ex) {
-			// no ho agafa tal com esta ara (Class.forName)
-			// Logger.getLogger((MySQL.class.getName()).log(Level.SEVERE,null,ex);
 			System.out.println(ex);
 		}
 	}
@@ -75,10 +73,10 @@ public class ConnectionDB {
 			String Query = "CREATE TABLE " + name + " " + campos;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
-			System.out.println("Tabla creada con exito!");
+			System.out.println("Tabla " + name + " creada con exito!");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			System.out.println("Error creando tabla.");
+			System.out.println("Error creando tabla " + name + ".");
 		}
 	}
 
@@ -94,10 +92,10 @@ public class ConnectionDB {
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
 
-			System.out.println("Datos almacenados correctamente");
+			System.out.println("Datos almacenados correctamente en la tabla "+nombre_tabla);
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
-			JOptionPane.showMessageDialog(null, "Error en el almacenamiento");
+			JOptionPane.showMessageDialog(null, "Error en el almacenamiento de la tabla "+nombre_tabla);
 		}
 	}
 
@@ -113,24 +111,39 @@ public class ConnectionDB {
             ResultSet resultSet;
             resultSet = st.executeQuery(Query);
 
-            int columnCount = resultSet.getMetaData().getColumnCount();
-
-            while (resultSet.next()) {
-                for(int i=1;i<=columnCount;i++) {
-                    System.out.print(resultSet.getString(i) + " | ");
-                }
-                System.out.println("");
-            }
+            showValuesTables(db, nombre_tabla, resultSet);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
+	// METODO INTERNO QUE IMPRIME LOS DATOS - NOMBRE TABLE I NOMBRES COLUMNAS 
+	private void showValuesTables(String db, String nombre_tabla, ResultSet resultSet) throws SQLException {
+		int columnCount = resultSet.getMetaData().getColumnCount();
+		
+		System.out.println("\n"+nombre_tabla.toUpperCase());        
+		
+		ResultSet rs = conexion.getMetaData().getColumns(db, null, nombre_tabla, null);
+		while(rs.next()) {
+			String columnas = rs.getString(4); //la columna 4 es column_name 
+			System.out.print(columnas+" ");
+		}
+		System.out.println("\n");
+		
+		while (resultSet.next()) {
+		    for(int i=1;i<=columnCount;i++) {
+		        System.out.print(resultSet.getString(i) + " | ");
+		    }
+		    System.out.println("");
+		}
+	}
+
 	//METODO ELIMINA VALORES DE DB
 
-	public void deleteRecord(String nombre_tabla, String ID) {
+	public void deleteRecord(String nombre_tabla, String nombre_ID, String ID) {
 		try {
-			String Query = "DELETE FROM " + nombre_tabla + "WHERE ID " + ID + "\"";
+			String Query = "DELETE FROM " + nombre_tabla + "WHERE " + nombre_ID + "=" + ID + "\"";
+
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
 
@@ -140,9 +153,10 @@ public class ConnectionDB {
 		}
 	}
 	
+	// permite eliminar database o table si ya ha sido creada con errores
 	public void dropElement(String tipoElement,String element) {
 		try {
-			String Query = "DROP " + tipoElement + " IF EXISTS" + element;
+			String Query = "DROP " + tipoElement + " IF EXISTS " + element;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
 			
