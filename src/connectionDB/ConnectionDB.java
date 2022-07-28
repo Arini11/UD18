@@ -103,33 +103,28 @@ public class ConnectionDB {
 
 	// OBTENER VALORES MYSQL
 	public void getValues(String db, String nombre_tabla) {
-		try {
-			String Querydb = "USE " + db + ";";
-			Statement stdb = conexion.createStatement();
-			stdb.executeUpdate(Querydb);
+        try {
+            String Querydb = "USE " + db + ";";
+            Statement stdb = conexion.createStatement();
+            stdb.executeUpdate(Querydb);
 
-			String Query = "SELECT * FROM " + nombre_tabla;
-			Statement st = conexion.createStatement();
-			ResultSet resultSet;
-			resultSet = st.executeQuery(Query);
+            String Query = "SELECT * FROM " + nombre_tabla;
+            Statement st = conexion.createStatement();
+            ResultSet resultSet;
+            resultSet = st.executeQuery(Query);
 
-			System.out.println("### "+nombre_tabla+" ###");
-			while (resultSet.next()) {
-				for(int i=1;i>0;i++) {
-					try {
-						resultSet.getString(i);
-					}catch(Exception e) {
-						break;
-					}
-					System.out.print(resultSet.getString(i) + " | ");
-				}
-				System.out.println("");
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+            int columnCount = resultSet.getMetaData().getColumnCount();
 
-	}
+            while (resultSet.next()) {
+                for(int i=1;i<=columnCount;i++) {
+                    System.out.print(resultSet.getString(i) + " | ");
+                }
+                System.out.println("");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 	//METODO ELIMINA VALORES DE DB
 
