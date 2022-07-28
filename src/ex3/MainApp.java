@@ -7,7 +7,6 @@ public class MainApp {
 	public static void main(String[] args) {
 		ConnectionDB conn = new ConnectionDB();
 		conn.createDB("ex3");
-		conn.openConnection();
 		conn.createTable("ex3", "Almacenes", "(codigo int PRIMARY KEY, lugar nvarchar(100),"
 				+ "capacidad int)");
 		conn.createTable("ex3", "Cajas", "(numReferencia char(5) PRIMARY KEY, contenido nvarchar(100),"
