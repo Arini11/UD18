@@ -4,18 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ConnectionDB {
 
 	private Connection conexion;
 
-	public void openConnection() {
+	public void openConnection(String name) {
 
 		// Creo que se tiene que cambiar en url base dades, mysql por el nombre que
 		// tengamos de la bbdd ?
-		String urlBaseDades = "jdbc:mysql://localhost:3306";
+		String urlBaseDades = "jdbc:+"+name+"://localhost:3306?useTimezone=true&serverTimezone=UTC";
 		String user = "root";
 		String pass = "poner cada uno la suya";
 
@@ -43,7 +42,7 @@ public class ConnectionDB {
 	public void createDB(String name) {
 		try {
 			if (conexion == null)
-				openConnection();
+				openConnection(name);
 			String Query = "CREATE DATABASE " + name;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
@@ -92,7 +91,6 @@ public class ConnectionDB {
 	}
 
 	// OBTENER VALORES MYSQL
-
 	public void getValues(String db, String nombre_tabla, int numCampos) {
 		try {
 			String Querydb = "USE " + db + ";";
