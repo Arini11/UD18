@@ -59,7 +59,6 @@ public class ConnectionDB {
 			String Query = "CREATE DATABASE " + name;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
-			conexion.close();
 			System.out.println("Se ha creado la base de datos " + name + " de forma exitosa.");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
