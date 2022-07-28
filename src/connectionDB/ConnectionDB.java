@@ -12,11 +12,9 @@ public class ConnectionDB {
 
 	public void openConnection(String name) {
 
-		// Creo que se tiene que cambiar en url base dades, mysql por el nombre que
-		// tengamos de la bbdd ?
-
-		String urlBaseDades = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
-		String user = "arnau";
+		//name para abrir conexion a una bbdd concreta, si pusieramos mysql abriria conexion general con mySQL?
+		String urlBaseDades = "jdbc:"+name+"://localhost:3306?useTimezone=true&serverTimezone=UTC";
+		String user = "root";
 		String pass = "arnau";
 
 		try {
@@ -80,7 +78,7 @@ public class ConnectionDB {
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query = "INSERT INTO " + nombre_tabla + " " + campos;
+			String Query = "REPLACE INTO " + nombre_tabla + " " + campos; // TENER EN CUENTA QUE INSERTA I TAMBIEN HACE UPDATE SI JA EXISTE
 
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
@@ -133,5 +131,5 @@ public class ConnectionDB {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
 		}
-	};
+	}
 }
