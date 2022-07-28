@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class ConnectionDB {
@@ -19,7 +19,7 @@ public class ConnectionDB {
 	public void openConnection(String name) {
 
 		String user = "", password = "";
-		String urlBaseDades = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
+		String urlBaseDades = "jdbc:"+name+"://localhost:3306?useTimezone=true&serverTimezone=UTC";
 
 		// Carregar user i password
 		try (InputStream input = new FileInputStream("src/connectionDB/login.properties")) {
@@ -30,7 +30,7 @@ public class ConnectionDB {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conexion = DriverManager.getConnection(urlBaseDades, user, password);
@@ -91,7 +91,7 @@ public class ConnectionDB {
 			Statement stdb = conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query = "INSERT INTO " + nombre_tabla + " " + campos;
+			String Query = "REPLACE INTO " + nombre_tabla + " " + campos; // TENER EN CUENTA QUE INSERTA I TAMBIEN HACE UPDATE SI JA EXISTE
 
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
@@ -112,7 +112,7 @@ public class ConnectionDB {
 
 			String Query = "SELECT * FROM " + nombre_tabla;
 			Statement st = conexion.createStatement();
-			java.sql.ResultSet resultSet;
+			ResultSet resultSet;
 			resultSet = st.executeQuery(Query);
 
 			while (resultSet.next()) {
@@ -144,5 +144,5 @@ public class ConnectionDB {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
 		}
-	};
+	}
 }
