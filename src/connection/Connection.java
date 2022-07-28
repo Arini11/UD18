@@ -3,7 +3,6 @@ package connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
 public class Connection {
@@ -48,7 +47,7 @@ public class Connection {
 			Statement stdb= conexion.createStatement();
 			stdb.executeUpdate(Querydb);
 
-			String Query= "INSERT INTO " +table_name + " " +campos;
+			String Query= "INSERT INTO " +nombre_tabla + " " +campos;
 
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
@@ -81,7 +80,7 @@ public class Connection {
 				}
 			}
 		}catch(SQLException e) {
-			System.out.println(ex.getMessage());
+			System.out.println(e.getMessage());
 		} 
 
 	}
