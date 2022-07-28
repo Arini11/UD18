@@ -143,4 +143,17 @@ public class ConnectionDB {
 			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
 		}
 	}
+	
+	public void dropElement(String tipoElement,String element) {
+		try {
+			String Query = "DROP " + tipoElement + " IF EXISTS" + element;
+			Statement st = conexion.createStatement();
+			st.executeUpdate(Query);
+			
+		}catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
+		}
+		
+	}
 }
