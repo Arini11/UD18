@@ -113,6 +113,7 @@ public class ConnectionDB {
 			ResultSet resultSet;
 			resultSet = st.executeQuery(Query);
 
+			System.out.println("### "+nombre_tabla+" ###");
 			while (resultSet.next()) {
 				for(int i=1;i>0;i++) {
 					try {
