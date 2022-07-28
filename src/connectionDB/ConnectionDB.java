@@ -1,9 +1,15 @@
 package connectionDB;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 import javax.swing.JOptionPane;
 
 public class ConnectionDB {
@@ -12,16 +18,22 @@ public class ConnectionDB {
 
 	public void openConnection(String name) {
 
-		// Creo que se tiene que cambiar en url base dades, mysql por el nombre que
-		// tengamos de la bbdd ?
-
+		String user = "", password = "";
 		String urlBaseDades = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
-		String user = "arnau";
-		String pass = "arnau";
+
+		// Carregar user i password
+		try (InputStream input = new FileInputStream("src/connectionDB/login.properties")) {
+			Properties prop = new Properties();
+			prop.load(input);
+			user = prop.getProperty("user");
+			password = prop.getProperty("password");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conexion = DriverManager.getConnection(urlBaseDades, user, pass);
+			conexion = DriverManager.getConnection(urlBaseDades, user, password);
 			System.out.println("Server connected");
 
 		} catch (SQLException | ClassNotFoundException ex) {
@@ -73,7 +85,6 @@ public class ConnectionDB {
 	}
 
 	// INSERTAR DATOS EN TABLAS MYSQL
-
 	public void insertData(String db, String nombre_tabla, String campos) {
 		try {
 			String Querydb = "USE " + db + ";";
@@ -122,7 +133,7 @@ public class ConnectionDB {
 	}
 
 	//METODO ELIMINA VALORES DE DB
-	
+
 	public void deleteRecord(String nombre_tabla, String ID) {
 		try {
 			String Query = "DELETE FROM " + nombre_tabla + "WHERE ID " + ID + "\"";
