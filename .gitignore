@@ -2,3 +2,4 @@
 .project
 .classpath
 .settings
+src/connectionDB/login.properties
