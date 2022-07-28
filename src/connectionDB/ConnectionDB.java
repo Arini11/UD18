@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
@@ -16,10 +15,10 @@ public class ConnectionDB {
 
 	private Connection conexion;
 
-	public void openConnection(String name) {
+	public void openConnection() {
 
 		String user = "", password = "";
-		String urlBaseDades = "jdbc:"+name+"://localhost:3306?useTimezone=true&serverTimezone=UTC";
+		String urlBaseDades = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
 
 		// Carregar user i password
 		try (InputStream input = new FileInputStream("src/connectionDB/login.properties")) {
@@ -56,7 +55,7 @@ public class ConnectionDB {
 	public void createDB(String name) {
 		try {
 			if (conexion == null)
-				openConnection(name);
+				openConnection();
 			String Query = "CREATE DATABASE " + name;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
