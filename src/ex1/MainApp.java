@@ -9,7 +9,6 @@ public class MainApp {
 	public static void main(String[] args) {
 		conn = new ConnectionDB();
 		conn.createDB("ex1");
-		conn.openConnection();
 		conn.createTable("ex1", "Fabricantes", "(codigo int PRIMARY KEY, nombre nvarchar(100))");
 		conn.createTable("ex1", "Articulos", " (codigo int PRIMARY KEY, nombre nvarchar(100), precio double, fabricante int,"
 				+ "constraint FK_Fabricante FOREIGN KEY (Fabricante) references Fabricantes (codigo))");
