@@ -59,7 +59,6 @@ public class ConnectionDB {
 			String Query = "CREATE DATABASE " + name;
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
-			conexion.close();
 			System.out.println("Se ha creado la base de datos " + name + " de forma exitosa.");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -143,5 +142,18 @@ public class ConnectionDB {
 			System.out.println(ex.getMessage());
 			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
 		}
+	}
+	
+	public void dropElement(String tipoElement,String element) {
+		try {
+			String Query = "DROP " + tipoElement + " IF EXISTS" + element;
+			Statement st = conexion.createStatement();
+			st.executeUpdate(Query);
+			
+		}catch(SQLException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error borrando el registro especificado");
+		}
+		
 	}
 }
