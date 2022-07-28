@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class ConnectionDB {
@@ -99,7 +100,7 @@ public class ConnectionDB {
 
 			String Query = "SELECT * FROM " + nombre_tabla;
 			Statement st = conexion.createStatement();
-			java.sql.ResultSet resultSet;
+			ResultSet resultSet;
 			resultSet = st.executeQuery(Query);
 
 			while (resultSet.next()) {
