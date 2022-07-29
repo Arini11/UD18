@@ -142,7 +142,7 @@ public class ConnectionDB {
 
 	public void deleteRecord(String nombre_tabla, String nombre_ID, String ID) {
 		try {
-			String Query = "DELETE FROM " + nombre_tabla + "WHERE " + nombre_ID + "=" + ID + "\"";
+			String Query = "DELETE FROM " + nombre_tabla + " WHERE " + nombre_ID + "=" + ID;
 
 			Statement st = conexion.createStatement();
 			st.executeUpdate(Query);
